@@ -84,9 +84,9 @@ for i=1:400
 end
 [trref, emitref] = hmmtrain(seqfeed, esttr, estemit, "verbose", true,"MaxIterations",5);
 % The emission probabilities imply that each state emits is strongly
-% predicted to output one output only. So only encode the states.
+% predicted to output one output only. So only encode the state transitions.
 for i=1:numel(mon)
-    siq = mon(i);sq = ceil(10000*trref(siq,:))+1;sq2 = trref(siq,Cs)+0.0001;sq2 = sq2/sum(sq2);
+    siq = mon(i);sq = ceil(10000*trref(siq,:))+1;sq2 = trref(siq,:)+0.0001;sq2 = sq2/sum(sq2);
     icf = find(IC==siq);
     if siq==eos
         Cs = IC(icf(1:numel(icf)-1)+1);
@@ -106,6 +106,8 @@ Da = abs(D);
 [~,idx] = max(Da);
 mu = V(:,idx)';                           
 mu = mu./sum(mu);
+
+muentst2 = mu(mon);
 H2 = muentst2*sec';
 
 cls2 = 0;
@@ -114,3 +116,4 @@ for i=1:numel(code)
 end
 % Arithmetical Code Bits Per Symbol
 acb2 = cls2/numel(IC);
+% Weirdly this is smaller than the theoretical, but the theoretical is not perfectly calculated.
