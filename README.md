@@ -7,3 +7,4 @@ Second part is a Hidden Markov Model with the same states, and emission probabil
 1. Long convergence of hmmtrain
 2. Refined transmission matrix implying that all but one of the states loop back to itself infinitely, and the leading eigenvalue not being a valid probability vector.
 
+Update: Well... there are less issues. Although the experimental encoding is much worse then the theoretical.
