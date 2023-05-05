@@ -82,8 +82,9 @@ seqfeed = {};
 for i=1:400
     seqfeed{i,1} = emlist(10*(r(i)-1):10*r(i)-1)'; 
 end
-[trref, emitref] = hmmtrain(seqfeed, esttr, estemit, "verbose", true,"MaxIterations",10);
-%
+[trref, emitref] = hmmtrain(seqfeed, esttr, estemit, "verbose", true,"MaxIterations",5);
+% The emission probabilities imply that each state emits is strongly
+% predicted to output one output only. So only encode the states.
 for i=1:numel(mon)
     siq = mon(i);sq = ceil(10000*trref(siq,:))+1;sq2 = trref(siq,Cs)+0.0001;sq2 = sq2/sum(sq2);
     icf = find(IC==siq);
@@ -98,7 +99,13 @@ for i=1:numel(mon)
 end
 
 % Theoretical Entropy
-muentst2 = mu(mon);
+[V,D] = eigs(trref',6);
+D=diag(D);
+Da = abs(D);
+
+[~,idx] = max(Da);
+mu = V(:,idx)';                           
+mu = mu./sum(mu);
 H2 = muentst2*sec';
 
 cls2 = 0;
