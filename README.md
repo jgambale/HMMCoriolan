@@ -8,3 +8,6 @@ Second part is a Hidden Markov Model with the same states, and emission probabil
 2. Refined transmission matrix implying that all but one of the states loop back to itself infinitely, and the leading eigenvalue not being a valid probability vector.
 
 Update: Well... there are less issues. Although the experimental encoding is notably worse then the theoretical for the HMM. The encoding of the emission bits were unnecessary, since the emission from each state had a singular "strong prediction".
+
+# Reviewer Comments
+I'll look into why you could not get the theoretical value, but not this week.
